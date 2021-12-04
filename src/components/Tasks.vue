@@ -1,6 +1,6 @@
 <template>
     <div v-for="task in tasks" :key="task.id">
-        <Task :task="task" />
+        <Task :task="task"  @delete-task="$emit('delete-task' , task)"  />
     </div>
 </template>
 
@@ -17,7 +17,8 @@ props:{
     tasks:{
         default:[]
     }
-}  
+} ,
+emits:['delete-task'] 
 }
 </script>
 

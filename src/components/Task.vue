@@ -1,7 +1,7 @@
 <template>
-    <div class="task">
+    <div :class="[task.reminder ?  'reminder':'' ,   'task']">
         <h3>{{task.text}} 
-            <span>hjk</span>
+            <span class="fas fa-times" @click="deleteTask(task)" ></span>
             </h3> 
         <p>{{task.day}}</p>
     </div>
@@ -13,7 +13,11 @@ export default {
     name:"Task",
     props:{
         task:Object
-    }
+    },methods: {
+        deleteTask(task){
+            this.$emit("delete-task" , task)
+        }
+    },
 }
 </script>
 
@@ -32,7 +36,7 @@ export default {
 }
 .task h3 {
   display: flex;
-  justify-content: space-between;
+justify-content: space-between;
   align-items: center;
  
 }
