@@ -1,7 +1,9 @@
 <template>
 <div class="container">
-  <Header title="Task Tracker" />
-  <AddTask @add-task="addTask" />
+  <Header :showAddTask="showAddTask"  title="Task Tracker" @toggle-add-task="toggleAddTask" />
+  <div v-show="showAddTask">
+    <AddTask @add-task="addTask" />
+  </div>
   <Tasks :tasks=tasks  @delete-task="deleteTask" @toggle-reminder="toggleReminder" />
 </div>
 </template>
@@ -20,7 +22,8 @@ export default {
   },
   data(){
     return{
-      tasks: []
+      tasks: [],
+      showAddTask:false
     }
   },
   created() {
@@ -65,14 +68,14 @@ export default {
     },
     toggleReminder(task){
         if(confirm("Are You Sure to toggle reminder")){
-        let index = this.tasks.findIndex( tt =>  tt.id === task.id )
-         let t = this.tasks[index]
-         t.reminder = !t.reminder
-         this.tasks[index] = t
+          this.tasks = this.tasks.map(t => (t.id === task.id) ? {...task , reminder:!task.reminder} : task )
       }
     },
     addTask(task){
-      this.tasks.unshift(task)
+      this.tasks = [...this.tasks , task]
+    },
+    toggleAddTask(){
+      this.showAddTask = !this.showAddTask
     }
   }
 
