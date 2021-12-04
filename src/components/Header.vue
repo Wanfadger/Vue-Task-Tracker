@@ -15,7 +15,6 @@ export default {
     name:"Header",
     components:{
         Button
-        
     },
     props:{
         title:{

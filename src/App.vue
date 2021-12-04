@@ -1,19 +1,22 @@
 <template>
 <div class="container">
   <Header title="Task Tracker" />
-  <Tasks :tasks=tasks  @delete-task="deleteTask" />
+  <AddTask @add-task="addTask" />
+  <Tasks :tasks=tasks  @delete-task="deleteTask" @toggle-reminder="toggleReminder" />
 </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
 import Tasks from './components/Tasks.vue'
+import AddTask from './components/AddTask.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
-    Tasks
+    Tasks,
+    AddTask
   },
   data(){
     return{
@@ -59,6 +62,17 @@ export default {
       if(confirm("Are You Sure")){
         this.tasks = this.tasks.filter( t =>  t.id !== task.id )
       }
+    },
+    toggleReminder(task){
+        if(confirm("Are You Sure to toggle reminder")){
+        let index = this.tasks.findIndex( tt =>  tt.id === task.id )
+         let t = this.tasks[index]
+         t.reminder = !t.reminder
+         this.tasks[index] = t
+      }
+    },
+    addTask(task){
+      this.tasks.unshift(task)
     }
   }
 
